@@ -1,0 +1,49 @@
+package br.com.fiap.ms_pagamento.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+
+@Entity
+@Table(name = "tb_pagamento")
+public class Pagamento {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
+    private BigDecimal valor;
+    private String nome; // Nome no cartão
+    private String numeroDoCartao; // XXXX XXXX XXXX XXXX
+    private String validade; // validade do cartão - MM/AA
+    private String codigoDeSeguranca; // código de segurança - XXX
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private Status status;  // Status do pagamento
+    @Column(nullable = false)
+    @NotNull(message = "Pedido ID é obrigatório")
+    @Positive(message = "O ID do pedido deve ser m número positivo")
+    private Long pedidoId;  // Id do pedido
+    @Column(nullable = false)
+    @NotNull(message = "Forma de pagamento ID é obrigatório")
+    @Positive(message = "O ID da forma de pagamento deve ser um número positivo")
+    private Long formaDePagamentoId; // 1 - dinheiro | 2 - cartão | 3 - pix
+}
