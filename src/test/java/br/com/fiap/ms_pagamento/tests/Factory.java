@@ -20,4 +20,10 @@ public class Factory {
         Pagamento pagamento = createPagamento();
         return new PagamentoDTO(pagamento);
     }
+
+    public static PagamentoDTO createNewPagamentoDTO(){
+        Pagamento pagamento = createPagamento();
+        pagamento.setId(null);
+        return new PagamentoDTO(pagamento);
+    }
 }
