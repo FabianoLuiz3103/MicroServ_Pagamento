@@ -3,8 +3,8 @@ package br.com.fiap.ms_pagamento.service;
 import br.com.fiap.ms_pagamento.dto.PagamentoDTO;
 import br.com.fiap.ms_pagamento.model.Pagamento;
 import br.com.fiap.ms_pagamento.repository.PagamentoRepository;
+import br.com.fiap.ms_pagamento.service.exception.ResourceNotFoundException;
 import br.com.fiap.ms_pagamento.tests.Factory;
-import exception.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.action.internal.EntityActionVetoException;
 import org.junit.jupiter.api.Assertions;
@@ -24,9 +24,13 @@ import static org.mockito.ArgumentMatchers.any;
 @ExtendWith(SpringExtension.class)
 public class PagamentoServiceTests {
 
+    //Referênciando PagamentoService
+    //@Autowired - Sem injeção de dependência
+    //Mock - Injetando
     @InjectMocks
     private PagamentoService pagamentoService;
 
+    //Mock do repositório
     @Mock
     private PagamentoRepository pagamentoRepository;
 
@@ -52,6 +56,7 @@ public class PagamentoServiceTests {
         //delete - primeiro caso onde ele deleta
         Mockito.doNothing().when(pagamentoRepository).deleteById(existingId);
 
+
         pagamento = Factory.createPagamento();
         pagamentoDTO = new PagamentoDTO(pagamento);
 
@@ -63,7 +68,7 @@ public class PagamentoServiceTests {
         Mockito.when(pagamentoRepository.save(any())).thenReturn(pagamento);
 
         //Update - Id existe
-        Mockito.when(pagamentoRepository.getReferenceById(nonExistingId)).thenReturn(pagamento);
+        Mockito.when(pagamentoRepository.getReferenceById(existingId)).thenReturn(pagamento);
 
         //Update - Id não existe
         Mockito.when(pagamentoRepository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
@@ -83,6 +88,13 @@ public class PagamentoServiceTests {
         Assertions.assertNotNull(result);
         Assertions.assertEquals(result.getId(), existingId);
         Assertions.assertEquals(result.getValor(), pagamento.getValor());
+    }
+
+    @Test
+    public void findByIdShouldReturnResourceNotFoundExceptionWhenIdDoesNotExistis(){
+        Assertions.assertThrows(ResourceNotFoundException.class,()->{
+            pagamentoService.findById(nonExistingId);
+        });
     }
 
     @Test
@@ -108,6 +120,17 @@ public class PagamentoServiceTests {
         Assertions.assertDoesNotThrow(
                 () -> {
                     pagamentoService.delete(existingId);
+                }
+        );
+    }
+
+    @Test
+    @DisplayName("delete Deveria lançar uma exceção ResourceNotFoundException quando Id não existe")
+    public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist(){
+        Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> {
+                    pagamentoService.delete(nonExistingId);
                 }
         );
     }

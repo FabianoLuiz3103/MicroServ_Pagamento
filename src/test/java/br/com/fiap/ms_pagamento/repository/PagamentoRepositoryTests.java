@@ -46,7 +46,7 @@ public class PagamentoRepositoryTests {
     }
 
     @Test
-    @DisplayName("sava Deveria salvar o objeto com auto incremento quando o id é nulo")
+    @DisplayName("save Deveria salvar o objeto com auto incremento quando o id é nulo")
     public void saveShouldPersistWhitAutoIncrementWhenIdIsNull(){
 
         Pagamento pagamento = Factory.createPagamento();

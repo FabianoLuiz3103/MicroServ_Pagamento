@@ -3,11 +3,9 @@ package br.com.fiap.ms_pagamento.service;
 import br.com.fiap.ms_pagamento.dto.PagamentoDTO;
 import br.com.fiap.ms_pagamento.model.Pagamento;
 import br.com.fiap.ms_pagamento.repository.PagamentoRepository;
-import exception.ResourceNotFoundException;
+import br.com.fiap.ms_pagamento.service.exception.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
