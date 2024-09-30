@@ -69,4 +69,9 @@ public class PagamentoController {
         dto = service.update(id, dto);
         return ResponseEntity.ok(dto);
     }
+
+    @PatchMapping("/{id}/confirmar")
+    public void confirmarPagamentoDePedido(@PathVariable @NotNull Long id){
+        service.confirmarPagamentoDePedido(id);
+    }
 }
