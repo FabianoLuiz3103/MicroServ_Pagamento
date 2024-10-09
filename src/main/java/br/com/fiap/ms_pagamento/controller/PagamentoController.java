@@ -70,8 +70,8 @@ public class PagamentoController {
         return ResponseEntity.ok(dto);
     }
 
-    @PatchMapping("/{id}/confirmar")
-    public void confirmarPagamentoDePedido(@PathVariable @NotNull Long id){
-        service.confirmarPagamentoDePedido(id);
-    }
+//    @PatchMapping("/{id}/confirmar")
+//    public void confirmarPagamentoDePedido(@PathVariable @NotNull Long id){
+//        service.confirmarPagamentoDePedido(id);
+//    }
 }
